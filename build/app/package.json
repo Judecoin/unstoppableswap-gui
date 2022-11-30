@@ -1,0 +1,21 @@
+{
+  "name": "unstoppableswap-gui",
+  "productName": "unstoppableswap-gui",
+  "description": "Graphical User Interface for jude<>BTC Atomic Swaps",
+  "version": "0.1.0",
+  "main": "./dist/main/main.js",
+  "author": {
+    "name": "UnstoppableSwap",
+    "email": "info@unstoppableswap.com",
+    "url": "https://unstoppableswap.net"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../../.erb/scripts/babel-register.js ../../.erb/scripts/electron-rebuild.js",
+    "link-modules": "node -r ../../.erb/scripts/babel-register.js ../../.erb/scripts/link-modules.js",
+    "postinstall": "yarn electron-rebuild && yarn link-modules"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "download": "^8.0.0"
+  }
+}
