@@ -1,19 +1,22 @@
 import {
   Button,
+  CircularProgress,
   DialogActions,
   DialogContent,
   makeStyles,
   TextField,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import React, { ChangeEvent, useState } from 'react';
-import useStore, { Provider } from '../../../store';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import SwapDialogTitle from '../SwapDialogTitle';
 import {
   isBtcAddressValid,
-  isjudeAddressValid,
+  isJudeAddressValid,
 } from '../../../../swap/utils/crypto-utils';
-import { startSwap } from '../../../../swap/swap-process-manager';
+import { ExtendedProvider } from '../../../../models/store';
+import { useAppSelector } from '../../../../store/hooks';
+import startSwap from '../../../../swap/commands/buy-Jude';
+import { isTestnet } from '../../../../store/config';
 
 const useStyles = makeStyles((theme) => ({
   alertBox: {
@@ -26,20 +29,25 @@ const useStyles = makeStyles((theme) => ({
 
 type FirstPageProps = {
   onClose: () => void;
+  currentProvider: ExtendedProvider;
 };
 
-export default function SwapInitPage({ onClose }: FirstPageProps) {
+export default function SwapInitPage({
+  onClose,
+  currentProvider,
+}: FirstPageProps) {
   const classes = useStyles();
 
-  const currentProvider = useStore(
-    (state) => state.currentProvider
-  ) as Provider;
   const [redeemAddress, setPayoutAddress] = useState(
-    '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6'
+    isTestnet()
+      ? '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6'
+      : ''
   );
   const [refundAddress, setRefundAddress] = useState(
-    'tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx'
+    isTestnet() ? 'tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx' : ''
   );
+  const [loading, setLoading] = useState(false);
+  const swapState = useAppSelector((state) => state.swap.state);
 
   function handlePayoutChange(event: ChangeEvent<HTMLInputElement>) {
     let text = event.target.value.trim();
@@ -55,25 +63,31 @@ export default function SwapInitPage({ onClose }: FirstPageProps) {
   }
 
   function getRedeemAddressError() {
-    if (isjudeAddressValid(redeemAddress, currentProvider.testnet)) {
+    if (isJudeAddressValid(redeemAddress, isTestnet())) {
       return null;
     }
     return 'Not a valid jude address';
   }
 
   function getRefundAddressError() {
-    if (isBtcAddressValid(refundAddress, currentProvider.testnet)) {
+    if (isBtcAddressValid(refundAddress, isTestnet())) {
       return null;
     }
     return `Only bech32 addresses are supported. They begin with "${
-      currentProvider.testnet ? 'tb1' : 'bc1'
+      isTestnet() ? 'tb1' : 'bc1'
     }"`;
   }
 
   function handleSwapStart() {
+    setLoading(true);
     startSwap(currentProvider, redeemAddress, refundAddress);
-    onClose();
   }
+
+  useEffect(() => {
+    if (swapState) {
+      onClose();
+    }
+  }, [swapState]);
 
   return (
     <>
@@ -81,15 +95,13 @@ export default function SwapInitPage({ onClose }: FirstPageProps) {
       <DialogContent dividers>
         <TextField
           variant="outlined"
-          label="jude payout address"
+          label="Jude payout address"
           value={redeemAddress}
           onChange={handlePayoutChange}
           error={Boolean(getRedeemAddressError() && redeemAddress.length > 5)}
           fullWidth
           className={classes.redeemAddressField}
-          placeholder={
-            currentProvider.testnet ? '59McWTPGc745...' : '888tNkZrPN6J...'
-          }
+          placeholder={isTestnet() ? '59McWTPGc745...' : '888tNkZrPN6J...'}
           helperText={
             getRedeemAddressError() ||
             'The judej will be sent to this address'
@@ -103,9 +115,7 @@ export default function SwapInitPage({ onClose }: FirstPageProps) {
           onChange={handleRefundChange}
           error={Boolean(getRefundAddressError() && refundAddress.length > 5)}
           fullWidth
-          placeholder={
-            currentProvider.testnet ? 'tb1q4aelwalu...' : 'bc18ociqZ9mZ...'
-          }
+          placeholder={isTestnet() ? 'tb1q4aelwalu...' : 'bc18ociqZ9mZ...'}
           helperText={
             getRefundAddressError() ||
             'In case something goes wrong all BTC is refunded to this address'
@@ -114,15 +124,14 @@ export default function SwapInitPage({ onClose }: FirstPageProps) {
 
         <Alert severity="warning" className={classes.alertBox}>
           <AlertTitle>Attention</AlertTitle>
-          Double check the jude address — funds sent to the wrong address
+          Double check the Jude address — funds sent to the wrong address
           can&apos;t be recovered
         </Alert>
-        {currentProvider.testnet ? (
+        {isTestnet() ? (
           <Alert severity="info" className={classes.alertBox}>
             <AlertTitle>Testnet</AlertTitle>
-            This swap provider only trades testnet coins. They don&apos;t hold
-            any value. If you want to swap real coins switch to a mainnet swap
-            provider.
+            You are swapping testnet coins. Testnet coins are worthless and only
+            used for testing.
           </Alert>
         ) : null}
       </DialogContent>
@@ -137,7 +146,7 @@ export default function SwapInitPage({ onClose }: FirstPageProps) {
           color="primary"
           variant="contained"
         >
-          Next
+          {loading ? <CircularProgress /> : 'Next'}
         </Button>
       </DialogActions>
     </>
