@@ -5,7 +5,7 @@ import reducer, {
 import { ExtendedProvider } from '../../models/store';
 
 const exampleTestnetProvider: ExtendedProvider = {
-  multiAddr: '/dnsaddr/t.Jude.example',
+  multiAddr: '/dnsaddr/t.jude.example',
   peerId: '12394294389438924',
   testnet: true,
   age: 5,
@@ -18,7 +18,7 @@ const exampleTestnetProvider: ExtendedProvider = {
 };
 
 const exampleMainnetProvider: ExtendedProvider = {
-  multiAddr: '/dnsaddr/Jude.example',
+  multiAddr: '/dnsaddr/jude.example',
   peerId: '32394294389438924',
   testnet: false,
   age: 5,

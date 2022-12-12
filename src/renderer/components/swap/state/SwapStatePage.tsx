@@ -10,17 +10,18 @@ import SwapDialogTitle from '../SwapDialogTitle';
 import SwapStopAlert from './SwapStopAlert';
 import { useAppDispatch } from '../../../../store/hooks';
 import {
+  isSwapStateBtcLockInMempool,
+  isSwapStateDownloadingBinary,
+  isSwapStateInitiated,
+  isSwapStateProcessExited,
+  isSwapStateReceivedQuote,
+  isSwapStateStarted,
+  isSwapStateWaitingForBtcDeposit,
+  isSwapStatejudeLockInMempool,
+  isSwapStatejudeRedeemInMempool,
   Swap,
   SwapState,
-  SwapStateBtcLockInMempool,
-  SwapStateDownloadingBinary,
-  SwapStateInitiated,
-  SwapStateProcessExited,
-  SwapStateReceivedQuote,
-  SwapStateType,
   SwapStateWaitingForBtcDeposit,
-  SwapStateJudeLockInMempool,
-  SwapStateJudeRedeemInMempool,
 } from '../../../../models/store';
 import SwapStateStepper from './SwapStateStepper';
 import DownloadingBinaryPage from './pages/happy/DownloadingBinaryPage';
@@ -28,9 +29,9 @@ import InitiatedPage from './pages/happy/InitiatedPage';
 import WaitingForBitcoinDepositPage from './pages/happy/WaitingForBitcoinDepositPage';
 import StartedPage from './pages/happy/StartedPage';
 import BitcoinLockTxInMempoolPage from './pages/happy/BitcoinLockTxInMempoolPage';
-import JudeLockTxInMempoolPage from './pages/happy/JudeLockInMempoolPage';
+import judeLockTxInMempoolPage from './pages/happy/judeLockInMempoolPage';
 import ProcessExitedPage from './pages/happy/ProcessExitedPage';
-import JudeRedeemInMempoolPage from './pages/happy/JudeRedeemInMempoolPage';
+import judeRedeemInMempoolPage from './pages/happy/judeRedeemInMempoolPage';
 import ReceivedQuotePage from './pages/happy/ReceivedQuotePage';
 
 const useStyles = makeStyles({
@@ -44,42 +45,45 @@ const useStyles = makeStyles({
 });
 
 function InnerContent({ state }: { state: SwapState }) {
-  switch (state.type) {
-    case SwapStateType.DOWNLOADING_BINARY:
-      return (
-        <DownloadingBinaryPage state={state as SwapStateDownloadingBinary} />
-      );
-    case SwapStateType.INITIATED:
-      return <InitiatedPage state={state as SwapStateInitiated} />;
-    case SwapStateType.RECEIVED_QUOTE:
-      return <ReceivedQuotePage state={state as SwapStateReceivedQuote} />;
-    case SwapStateType.WAITING_FOR_BTC_DEPOSIT:
-      return (
-        <WaitingForBitcoinDepositPage
-          state={state as SwapStateWaitingForBtcDeposit}
-        />
-      );
-    case SwapStateType.STARTED:
-      return <StartedPage />;
-    case SwapStateType.BTC_LOCK_TX_IN_MEMPOOL:
-      return (
-        <BitcoinLockTxInMempoolPage
-          state={state as SwapStateBtcLockInMempool}
-        />
-      );
-    case SwapStateType.Jude_LOCK_TX_IN_MEMPOOL:
-      return (
-        <JudeLockTxInMempoolPage state={state as SwapStateJudeLockInMempool} />
-      );
-    case SwapStateType.Jude_REDEEM_IN_MEMPOOL:
-      return (
-        <JudeRedeemInMempoolPage state={state as SwapStateJudeRedeemInMempool} />
-      );
-    case SwapStateType.PROCESS_EXITED:
-      return <ProcessExitedPage state={state as SwapStateProcessExited} />;
-    default:
-      return <pre>{JSON.stringify(state, null, '\t')}</pre>;
+  if (isSwapStateDownloadingBinary(state)) {
+    return <DownloadingBinaryPage state={state} />;
   }
+  if (isSwapStateInitiated(state)) {
+    return <InitiatedPage />;
+  }
+  if (isSwapStateReceivedQuote(state)) {
+    return <ReceivedQuotePage />;
+  }
+  if (isSwapStateWaitingForBtcDeposit(state)) {
+    return (
+      <WaitingForBitcoinDepositPage
+        state={state as SwapStateWaitingForBtcDeposit}
+      />
+    );
+  }
+  if (isSwapStateWaitingForBtcDeposit(state)) {
+    return (
+      <WaitingForBitcoinDepositPage
+        state={state as SwapStateWaitingForBtcDeposit}
+      />
+    );
+  }
+  if (isSwapStateStarted(state)) {
+    return <StartedPage />;
+  }
+  if (isSwapStateBtcLockInMempool(state)) {
+    return <BitcoinLockTxInMempoolPage state={state} />;
+  }
+  if (isSwapStatejudeLockInMempool(state)) {
+    return <judeLockTxInMempoolPage state={state} />;
+  }
+  if (isSwapStatejudeRedeemInMempool(state)) {
+    return <judeRedeemInMempoolPage state={state} />;
+  }
+  if (isSwapStateProcessExited(state)) {
+    return <ProcessExitedPage state={state} />;
+  }
+  return <pre>{JSON.stringify(state, null, 4)}</pre>;
 }
 
 export default function SwapStatePage({ swap }: { swap: Swap }) {
@@ -97,7 +101,7 @@ export default function SwapStatePage({ swap }: { swap: Swap }) {
 
   return (
     <>
-      <SwapDialogTitle title="Swapping BTC for Jude" />
+      <SwapDialogTitle title="Swapping BTC for jude" />
 
       <DialogContent dividers className={classes.content}>
         <InnerContent state={swap.state as SwapState} />

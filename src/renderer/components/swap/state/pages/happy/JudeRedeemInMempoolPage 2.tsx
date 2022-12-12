@@ -1,6 +1,8 @@
 import { Box, Link, Typography } from '@material-ui/core';
 import React from 'react';
-import { SwapStatejudeRedeemInMempool } from '../../../../../swap/swap-state-machine';
+import { SwapStatejudeRedeemInMempool } from '../../../../../../models/store';
+import { getjudeTxExplorerUrl } from '../../../../../utils/blockexplorer-utils';
+import { isTestnet } from '../../../../../../store/config';
 
 type judeRedeemInMempoolPageProps = {
   state: SwapStatejudeRedeemInMempool;
@@ -17,11 +19,7 @@ export default function judeRedeemInMempoolPage({
       <Typography variant="body1">
         TxId:{' '}
         <Link
-          href={`${
-            state.provider.testnet
-              ? 'https://stagenet.judechain.net'
-              : 'https://judechain.net'
-          }/tx/${state.bobjudeRedeemTxId}`}
+          href={getjudeTxExplorerUrl(state.bobjudeRedeemTxId, isTestnet())}
           target="_blank"
         >
           {state.bobjudeRedeemTxId}

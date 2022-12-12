@@ -4,9 +4,9 @@ export function getBitcoinTxExplorerUrl(txid: string, testnet: boolean) {
   }/transaction/${txid}`;
 }
 
-export function getJudeTxExplorerUrl(txid: string, stagenet: boolean) {
+export function getjudeTxExplorerUrl(txid: string, stagenet: boolean) {
   if (stagenet) {
-    return `https://stagenet.Judechain.net/tx/${txid}`;
+    return `https://stagenet.judechain.net/tx/${txid}`;
   }
-  return `https://Judechain.net/tx/${txid}`;
+  return `https://judechain.net/tx/${txid}`;
 }

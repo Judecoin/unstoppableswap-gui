@@ -1,19 +1,19 @@
 import {
   SwapLog,
-  SwapLogAliceLockedJude,
+  SwapLogAliceLockedjude,
   SwapLogBtcTxStatusChanged,
   SwapLogPublishedBtcTx,
   SwapLogReceivedBtc,
   SwapLogReceivedQuote,
-  SwapLogReceivedJudeLockTxConfirmation,
-  SwapLogRedeemedJude,
+  SwapLogReceivedjudeLockTxConfirmation,
+  SwapLogRedeemedjude,
   SwapLogStartedSwap,
   SwapLogWaitingForBtcDeposit,
 } from '../../models/swap';
 import { store } from '../../store/store';
 import {
   addLog,
-  aliceLockedJudeLog,
+  aliceLockedjudeLog,
   appendStdOut,
   btcTransactionStatusChangedLog,
   downloadProgressUpdate,
@@ -23,9 +23,9 @@ import {
   receivedBtcLog,
   receivedQuoteLog,
   startingNewSwapLog,
-  transferredJudeToWalletLog,
+  transferredjudeToWalletLog,
   waitingForBtcDepositLog,
-  JudeLockStatusChangedLog,
+  judeLockStatusChangedLog,
 } from '../../store/features/swap/swapSlice';
 import { Provider } from '../../models/store';
 import { BinaryDownloadStatus } from '../downloader';
@@ -57,16 +57,16 @@ function onSwapLog(log: SwapLog) {
         btcTransactionStatusChangedLog(log as SwapLogBtcTxStatusChanged)
       );
       break;
-    case 'Alice locked Jude':
-      store.dispatch(aliceLockedJudeLog(log as SwapLogAliceLockedJude));
+    case 'Alice locked jude':
+      store.dispatch(aliceLockedjudeLog(log as SwapLogAliceLockedjude));
       break;
-    case 'Received new confirmation for Jude lock tx':
+    case 'Received new confirmation for jude lock tx':
       store.dispatch(
-        JudeLockStatusChangedLog(log as SwapLogReceivedJudeLockTxConfirmation)
+        judeLockStatusChangedLog(log as SwapLogReceivedjudeLockTxConfirmation)
       );
       break;
-    case 'Successfully transferred Jude to wallet':
-      store.dispatch(transferredJudeToWalletLog(log as SwapLogRedeemedJude));
+    case 'Successfully transferred jude to wallet':
+      store.dispatch(transferredjudeToWalletLog(log as SwapLogRedeemedjude));
       break;
     default:
       console.error(`Swap log was not reduced Log: ${JSON.stringify(log)}`);
@@ -98,7 +98,7 @@ export default async function startSwap(
   const sellerIdentifier = `${provider.multiAddr}/p2p/${provider.peerId}`;
 
   await spawnSubcommand(
-    'buy-Jude',
+    'buy-jude',
     {
       'change-address': refundAddress,
       'receive-address': redeemAddress,

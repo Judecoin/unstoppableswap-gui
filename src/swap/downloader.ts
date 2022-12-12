@@ -20,21 +20,21 @@ function getSwapBinaryInfo(): BinaryInfo {
   switch (process.platform) {
     case 'darwin':
       return {
-        url: 'https://github.com/comit-network/Jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Darwin_x86_64.tar',
+        url: 'https://github.com/comit-network/jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Darwin_x86_64.tar',
         sha256sum:
           '809ea13b4e9f8dfe9288b22394ae906161161c0763d1e453c81e60ee22cea3d7',
         name: 'swap',
       };
     case 'linux':
       return {
-        url: 'https://github.com/comit-network/Jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Linux_x86_64.tar',
+        url: 'https://github.com/comit-network/jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Linux_x86_64.tar',
         sha256sum:
           'edb4c182004896ca49bb8458bc9527efd5d487dcdf9ad91398bb60be9b70f099',
         name: 'swap',
       };
     default:
       return {
-        url: 'https://github.com/comit-network/Jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Windows_x86_64.zip',
+        url: 'https://github.com/comit-network/jude-btc-swap/releases/download/0.9.0/swap_0.9.0_Windows_x86_64.zip',
         sha256sum:
           '3f2ade3e5ba1bb1522f070dd7896903a73e605a3507eaa35f69c92bb9b172ec9',
         name: 'swap.exe',

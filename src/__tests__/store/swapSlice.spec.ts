@@ -1,28 +1,28 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { Provider, Swap, SwapStateType } from '../../models/store';
 import {
-  SwapLogAliceLockedJude,
+  SwapLogAliceLockedjude,
   SwapLogBtcTxStatusChanged,
   SwapLogPublishedBtcTx,
   SwapLogReceivedBtc,
   SwapLogReceivedQuote,
-  SwapLogReceivedJudeLockTxConfirmation,
-  SwapLogRedeemedJude,
+  SwapLogReceivedjudeLockTxConfirmation,
+  SwapLogRedeemedjude,
   SwapLogStartedSwap,
   SwapLogWaitingForBtcDeposit,
 } from '../../models/swap';
 
 import reducer, {
-  aliceLockedJudeLog,
+  aliceLockedjudeLog,
   btcTransactionStatusChangedLog,
   initiateSwap,
   publishedBtcTransactionLog,
   receivedBtcLog,
   receivedQuoteLog,
   startingNewSwapLog,
-  transferredJudeToWalletLog,
+  transferredjudeToWalletLog,
   waitingForBtcDepositLog,
-  JudeLockStatusChangedLog,
+  judeLockStatusChangedLog,
 } from '../../store/features/swap/swapSlice';
 
 const mReceivedQuoteLog: SwapLogReceivedQuote = {
@@ -89,32 +89,32 @@ const mBobBtcTxLockStatusChanged: SwapLogBtcTxStatusChanged = {
   },
 };
 
-const mAliceLockedJudeLog: SwapLogAliceLockedJude = {
+const mAliceLockedjudeLog: SwapLogAliceLockedjude = {
   timestamp: '2021-09-05 03:56:52',
   level: 'INFO',
   fields: {
-    message: 'Alice locked Jude',
+    message: 'Alice locked jude',
     txid: 'cb46ad562ffc868a7c2d8c72cecd9090cca7b6f102199db6a6cbef65afeb09d1',
   },
 };
 
-const mAliceJudeLockTxConfirmationUpdateLog: SwapLogReceivedJudeLockTxConfirmation =
+const mAlicejudeLockTxConfirmationUpdateLog: SwapLogReceivedjudeLockTxConfirmation =
   {
     timestamp: '2021-09-05 03:57:16',
     level: 'INFO',
     fields: {
-      message: 'Received new confirmation for Jude lock tx',
+      message: 'Received new confirmation for jude lock tx',
       txid: 'cb46ad562ffc868a7c2d8c72cecd9090cca7b6f102199db6a6cbef65afeb09d1',
       seen_confirmations: '1',
       needed_confirmations: '10',
     },
   };
 
-const mJudeRedeemSuccessfulLog: SwapLogRedeemedJude = {
+const mjudeRedeemSuccessfulLog: SwapLogRedeemedjude = {
   timestamp: '2021-09-05 04:07:37',
   level: 'INFO',
   fields: {
-    message: 'Successfully transferred Jude to wallet',
+    message: 'Successfully transferred jude to wallet',
     jude_receive_address:
       '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6',
     txid: 'eadda576b5929c55bcc58f55c24bb52ac1853edb7d3b068ab67a3f66b0a1c546',
@@ -130,7 +130,7 @@ const initialSwapState = {
 };
 
 const exampleProvider: Provider = {
-  multiAddr: '/dnsaddr/Jude.example',
+  multiAddr: '/dnsaddr/jude.example',
   peerId: '12394294389438924',
   testnet: true,
 };
@@ -250,16 +250,16 @@ test('should infer correct states from happy-path logs', () => {
     stdOut: '',
   });
 
-  swap = reducer(swap, aliceLockedJudeLog(mAliceLockedJudeLog));
+  swap = reducer(swap, aliceLockedjudeLog(mAliceLockedjudeLog));
 
   expect(swap).toStrictEqual({
     processRunning: true,
     logs: [],
     state: {
-      type: SwapStateType.Jude_LOCK_TX_IN_MEMPOOL,
-      aliceJudeLockTxId:
+      type: SwapStateType.jude_LOCK_TX_IN_MEMPOOL,
+      alicejudeLockTxId:
         'cb46ad562ffc868a7c2d8c72cecd9090cca7b6f102199db6a6cbef65afeb09d1',
-      aliceJudeLockTxConfirmations: 0,
+      alicejudeLockTxConfirmations: 0,
     },
     provider: exampleProvider,
     stdOut: '',
@@ -267,30 +267,30 @@ test('should infer correct states from happy-path logs', () => {
 
   swap = reducer(
     swap,
-    JudeLockStatusChangedLog(mAliceJudeLockTxConfirmationUpdateLog)
+    judeLockStatusChangedLog(mAlicejudeLockTxConfirmationUpdateLog)
   );
 
   expect(swap).toStrictEqual({
     processRunning: true,
     logs: [],
     state: {
-      type: SwapStateType.Jude_LOCK_TX_IN_MEMPOOL,
-      aliceJudeLockTxId:
+      type: SwapStateType.jude_LOCK_TX_IN_MEMPOOL,
+      alicejudeLockTxId:
         'cb46ad562ffc868a7c2d8c72cecd9090cca7b6f102199db6a6cbef65afeb09d1',
-      aliceJudeLockTxConfirmations: 1,
+      alicejudeLockTxConfirmations: 1,
     },
     provider: exampleProvider,
     stdOut: '',
   });
 
-  swap = reducer(swap, transferredJudeToWalletLog(mJudeRedeemSuccessfulLog));
+  swap = reducer(swap, transferredjudeToWalletLog(mjudeRedeemSuccessfulLog));
 
   expect(swap).toStrictEqual({
     processRunning: true,
     logs: [],
     state: {
-      type: SwapStateType.Jude_REDEEM_IN_MEMPOOL,
-      bobJudeRedeemTxId:
+      type: SwapStateType.jude_REDEEM_IN_MEMPOOL,
+      bobjudeRedeemTxId:
         'eadda576b5929c55bcc58f55c24bb52ac1853edb7d3b068ab67a3f66b0a1c546',
     },
     provider: exampleProvider,

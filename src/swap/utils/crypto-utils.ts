@@ -11,7 +11,7 @@ export async function getFileSha256Sum(path: PathLike): Promise<string> {
   });
 }
 
-export function isJudeAddressValid(address: string, stagenet: boolean) {
+export function isjudeAddressValid(address: string, stagenet: boolean) {
   const re = stagenet
     ? '[57][0-9AB][1-9A-HJ-NP-Za-km-z]{93}'
     : '[48][0-9AB][1-9A-HJ-NP-Za-km-z]{93}';

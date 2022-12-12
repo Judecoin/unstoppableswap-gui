@@ -1,19 +1,19 @@
 import {
   isBtcAddressValid,
-  isJudeAddressValid,
+  isjudeAddressValid,
 } from '../../../swap/utils/crypto-utils';
 
-describe('Jude address validation', () => {
+describe('jude address validation', () => {
   test('should detect valid primary testnet address to be valid for testnet and invalid for mainnet', () => {
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6',
         true
       )
     ).toBe(true);
 
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6',
         false
       )
@@ -22,14 +22,14 @@ describe('Jude address validation', () => {
 
   test('should detect valid subaddress testnet address to be valid for testnet and invalid for mainnet', () => {
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '73a4nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn',
         true
       )
     ).toBe(true);
 
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '73a4nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn',
         false
       )
@@ -38,14 +38,14 @@ describe('Jude address validation', () => {
 
   test('should detect valid primary mainnet address to be valid for mainnet and invalid for testnet', () => {
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '4AdUndXHHZ6cfufTMvppY6JwXNouMBzSkbLYfpAV5Usx3skxNgYeYTRj5UzqtReoS44qo9mtmXCqY45DJ852K5Jv2684Rge',
         false
       )
     ).toBe(true);
 
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '4AdUndXHHZ6cfufTMvppY6JwXNouMBzSkbLYfpAV5Usx3skxNgYeYTRj5UzqtReoS44qo9mtmXCqY45DJ852K5Jv2684Rge',
         true
       )
@@ -54,14 +54,14 @@ describe('Jude address validation', () => {
 
   test('should detect valid subaddress mainnet address to be valid for mainnet and invalid for testnet', () => {
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '87jS4C7ngk9EHdqFFuxGFgg8AyH63dRUoULshWDybFJaP75UA89qsutG5B1L1QTc4w228nsqsv8EjhL7bz8fB3611Mh98mg',
         false
       )
     ).toBe(true);
 
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '87jS4C7ngk9EHdqFFuxGFgg8AyH63dRUoULshWDybFJaP75UA89qsutG5B1L1QTc4w228nsqsv8EjhL7bz8fB3611Mh98mg',
         true
       )
@@ -70,14 +70,14 @@ describe('Jude address validation', () => {
 
   test('should detect invalid address to be invalid for both mainnet and testnet', () => {
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '9nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn',
         true
       )
     ).toBe(false);
 
     expect(
-      isJudeAddressValid(
+      isjudeAddressValid(
         '9nWuvkYoYoksGurDjKZQcZkmaxLaKbbeiKzHnMmqKivrCzq5Q2JtJG1UZNZFqLPbQ3MiXCk2Q5bdwdUNSr7X9QrPubkn',
         false
       )

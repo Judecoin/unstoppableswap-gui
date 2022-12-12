@@ -36,8 +36,8 @@ export enum SwapStateType {
   WAITING_FOR_BTC_DEPOSIT = 'waiting for btc deposit',
   STARTED = 'started',
   BTC_LOCK_TX_IN_MEMPOOL = 'btc lock tx is in mempool',
-  Jude_LOCK_TX_IN_MEMPOOL = 'Jude lock tx is in mempool',
-  Jude_REDEEM_IN_MEMPOOL = 'Jude redeem tx is in mempool',
+  jude_LOCK_TX_IN_MEMPOOL = 'jude lock tx is in mempool',
+  jude_REDEEM_IN_MEMPOOL = 'jude redeem tx is in mempool',
   PROCESS_EXITED = 'process exited',
 }
 
@@ -48,8 +48,20 @@ export interface SwapStateDownloadingBinary extends SwapState {
   contentLengthBytes: number;
 }
 
+export function isSwapStateDownloadingBinary(
+  state?: SwapState | null
+): state is SwapStateDownloadingBinary {
+  return state?.type === SwapStateType.DOWNLOADING_BINARY;
+}
+
 export interface SwapStateInitiated extends SwapState {
   type: SwapStateType.INITIATED;
+}
+
+export function isSwapStateInitiated(
+  state?: SwapState | null
+): state is SwapStateInitiated {
+  return state?.type === SwapStateType.INITIATED;
 }
 
 export interface SwapStateReceivedQuote extends SwapState {
@@ -59,17 +71,33 @@ export interface SwapStateReceivedQuote extends SwapState {
   maximumSwapAmount: number;
 }
 
+export function isSwapStateReceivedQuote(
+  state?: SwapState | null
+): state is SwapStateReceivedQuote {
+  return state?.type === SwapStateType.RECEIVED_QUOTE;
+}
+
 export interface SwapStateWaitingForBtcDeposit extends SwapState {
   type: SwapStateType.WAITING_FOR_BTC_DEPOSIT;
   depositAddress: string;
   maxGiveable: number;
 }
 
+export function isSwapStateWaitingForBtcDeposit(
+  state?: SwapState | null
+): state is SwapStateWaitingForBtcDeposit {
+  return state?.type === SwapStateType.WAITING_FOR_BTC_DEPOSIT;
+}
+
 export interface SwapStateStarted extends SwapState {
   type: SwapStateType.STARTED;
   id: string;
-  btcAmount: number;
-  bobBtcLockTxFees: number;
+}
+
+export function isSwapStateStarted(
+  state?: SwapState | null
+): state is SwapStateStarted {
+  return state?.type === SwapStateType.STARTED;
 }
 
 export interface SwapStateBtcLockInMempool extends SwapState {
@@ -78,19 +106,43 @@ export interface SwapStateBtcLockInMempool extends SwapState {
   bobBtcLockTxConfirmations: number;
 }
 
-export interface SwapStateJudeLockInMempool extends SwapState {
-  type: SwapStateType.Jude_LOCK_TX_IN_MEMPOOL;
-  aliceJudeLockTxId: string;
-  aliceJudeLockTxConfirmations: number;
+export function isSwapStateBtcLockInMempool(
+  state?: SwapState | null
+): state is SwapStateBtcLockInMempool {
+  return state?.type === SwapStateType.BTC_LOCK_TX_IN_MEMPOOL;
 }
 
-export interface SwapStateJudeRedeemInMempool extends SwapState {
-  type: SwapStateType.Jude_REDEEM_IN_MEMPOOL;
-  bobJudeRedeemTxId: string;
+export interface SwapStatejudeLockInMempool extends SwapState {
+  type: SwapStateType.jude_LOCK_TX_IN_MEMPOOL;
+  alicejudeLockTxId: string;
+  alicejudeLockTxConfirmations: number;
+}
+
+export function isSwapStatejudeLockInMempool(
+  state?: SwapState | null
+): state is SwapStatejudeLockInMempool {
+  return state?.type === SwapStateType.jude_LOCK_TX_IN_MEMPOOL;
+}
+
+export interface SwapStatejudeRedeemInMempool extends SwapState {
+  type: SwapStateType.jude_REDEEM_IN_MEMPOOL;
+  bobjudeRedeemTxId: string;
+}
+
+export function isSwapStatejudeRedeemInMempool(
+  state?: SwapState | null
+): state is SwapStatejudeRedeemInMempool {
+  return state?.type === SwapStateType.jude_REDEEM_IN_MEMPOOL;
 }
 
 export interface SwapStateProcessExited extends SwapState {
   type: SwapStateType.PROCESS_EXITED;
   exitCode: number | null;
   exitSignal: NodeJS.Signals | null | undefined;
+}
+
+export function isSwapStateProcessExited(
+  state?: SwapState | null
+): state is SwapStateProcessExited {
+  return state?.type === SwapStateType.PROCESS_EXITED;
 }

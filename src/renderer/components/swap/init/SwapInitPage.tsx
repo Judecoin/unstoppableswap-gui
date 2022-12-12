@@ -11,11 +11,11 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import SwapDialogTitle from '../SwapDialogTitle';
 import {
   isBtcAddressValid,
-  isJudeAddressValid,
+  isjudeAddressValid,
 } from '../../../../swap/utils/crypto-utils';
 import { ExtendedProvider } from '../../../../models/store';
 import { useAppSelector } from '../../../../store/hooks';
-import startSwap from '../../../../swap/commands/buy-Jude';
+import startSwap from '../../../../swap/commands/buy-jude';
 import { isTestnet } from '../../../../store/config';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,7 @@ export default function SwapInitPage({
   }
 
   function getRedeemAddressError() {
-    if (isJudeAddressValid(redeemAddress, isTestnet())) {
+    if (isjudeAddressValid(redeemAddress, isTestnet())) {
       return null;
     }
     return 'Not a valid jude address';
@@ -95,7 +95,7 @@ export default function SwapInitPage({
       <DialogContent dividers>
         <TextField
           variant="outlined"
-          label="Jude payout address"
+          label="jude payout address"
           value={redeemAddress}
           onChange={handlePayoutChange}
           error={Boolean(getRedeemAddressError() && redeemAddress.length > 5)}
@@ -124,7 +124,7 @@ export default function SwapInitPage({
 
         <Alert severity="warning" className={classes.alertBox}>
           <AlertTitle>Attention</AlertTitle>
-          Double check the Jude address — funds sent to the wrong address
+          Double check the jude address — funds sent to the wrong address
           can&apos;t be recovered
         </Alert>
         {isTestnet() ? (

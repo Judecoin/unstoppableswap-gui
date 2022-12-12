@@ -20,9 +20,9 @@ function getActiveStep(state: SwapState) {
       return 1;
     case SwapStateType.BTC_LOCK_TX_IN_MEMPOOL:
       return 1;
-    case SwapStateType.Jude_LOCK_TX_IN_MEMPOOL:
+    case SwapStateType.jude_LOCK_TX_IN_MEMPOOL:
       return 2;
-    case SwapStateType.Jude_REDEEM_IN_MEMPOOL:
+    case SwapStateType.jude_REDEEM_IN_MEMPOOL:
       return 4;
     default:
       return 0;
@@ -46,7 +46,7 @@ export default function SwapStateStepper({ state }: SwapStateProgressBarProps) {
       </Step>
       <Step key={2}>
         <StepLabel optional={<Typography variant="caption">~20min</Typography>}>
-          They lock their Jude
+          They lock their jude
         </StepLabel>
       </Step>
       <Step key={3}>
@@ -56,7 +56,7 @@ export default function SwapStateStepper({ state }: SwapStateProgressBarProps) {
       </Step>
       <Step key={4}>
         <StepLabel optional={<Typography variant="caption">~2min</Typography>}>
-          Redeeming your Jude
+          Redeeming your jude
         </StepLabel>
       </Step>
     </Stepper>

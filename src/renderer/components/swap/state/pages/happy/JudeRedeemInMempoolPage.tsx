@@ -1,28 +1,28 @@
 import { Box, Link, Typography } from '@material-ui/core';
 import React from 'react';
-import { SwapStateJudeRedeemInMempool } from '../../../../../../models/store';
-import { getJudeTxExplorerUrl } from '../../../../../utils/blockexplorer-utils';
+import { SwapStatejudeRedeemInMempool } from '../../../../../../models/store';
+import { getjudeTxExplorerUrl } from '../../../../../utils/blockexplorer-utils';
 import { isTestnet } from '../../../../../../store/config';
 
-type JudeRedeemInMempoolPageProps = {
-  state: SwapStateJudeRedeemInMempool;
+type judeRedeemInMempoolPageProps = {
+  state: SwapStatejudeRedeemInMempool;
 };
 
-export default function JudeRedeemInMempoolPage({
+export default function judeRedeemInMempoolPage({
   state,
-}: JudeRedeemInMempoolPageProps) {
+}: judeRedeemInMempoolPageProps) {
   return (
     <Box>
       <Typography variant="h5">
-        Jude redeem transaction has been published
+        jude redeem transaction has been published
       </Typography>
       <Typography variant="body1">
         TxId:{' '}
         <Link
-          href={getJudeTxExplorerUrl(state.bobJudeRedeemTxId, isTestnet())}
+          href={getjudeTxExplorerUrl(state.bobjudeRedeemTxId, isTestnet())}
           target="_blank"
         >
-          {state.bobJudeRedeemTxId}
+          {state.bobjudeRedeemTxId}
         </Link>
       </Typography>
     </Box>

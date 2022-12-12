@@ -1,6 +1,6 @@
 import {
   getBitcoinTxExplorerUrl,
-  getJudeTxExplorerUrl,
+  getjudeTxExplorerUrl,
 } from '../../../renderer/utils/blockexplorer-utils';
 
 test('should compute correct btc mainnet txid blockexplorer url', () => {
@@ -45,7 +45,7 @@ test('should compute correct btc testnet txid blockexplorer url', () => {
 
 test('should compute correct jude mainnet txid blockexplorer url', () => {
   expect(
-    getJudeTxExplorerUrl(
+    getjudeTxExplorerUrl(
       'cdcbef3d1e4653eda2ab67901d5e66d1d9fc7624079b2910b5c9aff58e954238',
       false
     )
@@ -54,7 +54,7 @@ test('should compute correct jude mainnet txid blockexplorer url', () => {
   );
 
   expect(
-    getJudeTxExplorerUrl(
+    getjudeTxExplorerUrl(
       '443bec12b0589ff9feb8e7fd8fb08c1a24d755e901b0d8a7197807613b9ff391',
       false
     )
@@ -65,7 +65,7 @@ test('should compute correct jude mainnet txid blockexplorer url', () => {
 
 test('should compute correct jude testnet txid blockexplorer url', () => {
   expect(
-    getJudeTxExplorerUrl(
+    getjudeTxExplorerUrl(
       '59e02e88fca6edbdafbddb97a87dc6f616eae2059e44207918c6c9f91a261117',
       true
     )
@@ -74,7 +74,7 @@ test('should compute correct jude testnet txid blockexplorer url', () => {
   );
 
   expect(
-    getJudeTxExplorerUrl(
+    getjudeTxExplorerUrl(
       'a358cac3efacd939821977357acaa32f2d571bb332bf306376f35f2eb415ba1a',
       true
     )
