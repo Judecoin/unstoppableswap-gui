@@ -13,7 +13,7 @@ import {
   isBtcAddressValid,
   isjudeAddressValid,
 } from '../../../../swap/utils/crypto-utils';
-import { ExtendedProvider } from '../../../../models/store';
+import { ExtendedProvider } from '../../../../models/storeModel';
 import { useAppSelector } from '../../../../store/hooks';
 import startSwap from '../../../../swap/commands/buy-jude';
 import { isTestnet } from '../../../../store/config';

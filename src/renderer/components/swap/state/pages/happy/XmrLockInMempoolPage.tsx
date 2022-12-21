@@ -7,9 +7,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { SwapStateBtcLockInMempool } from '../../../../../../models/storeModel';
-import BitcoinIcon from '../../../../icons/BitcoinIcon';
-import { getBitcoinTxExplorerUrl } from '../../../../../utils/blockexplorer-utils';
+import { SwapStatejudeLockInMempool } from '../../../../../../models/storeModel';
+import judeIcon from '../../../../icons/judeIcon';
+import { getjudeTxExplorerUrl } from '../../../../../utils/blockexplorer-utils';
 import { isTestnet } from '../../../../../../store/config';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,35 +32,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type BitcoinLockTxInMempoolPageProps = {
-  state: SwapStateBtcLockInMempool;
+type judeLockTxInMempoolPageProps = {
+  state: SwapStatejudeLockInMempool;
 };
 
-export default function BitcoinLockTxInMempoolPage({
+export default function judeLockTxInMempoolPage({
   state,
-}: BitcoinLockTxInMempoolPageProps) {
+}: judeLockTxInMempoolPageProps) {
   const classes = useStyles();
 
   return (
     <Box>
       <Typography variant="h5" align="center">
-        Waiting for Bitcoin lock confirmations
+        Waiting for jude lock confirmations
       </Typography>
       <Paper variant="outlined" className={classes.depositAddressOuter}>
-        <Typography variant="subtitle1">BTC Lock Transaction</Typography>
+        <Typography variant="subtitle1">jude Lock Transaction</Typography>
         <Box className={classes.depositAddress}>
-          <BitcoinIcon />
-          <Typography variant="h5">{state.bobBtcLockTxId}</Typography>
+          <judeIcon />
+          <Typography variant="h5">{state.alicejudeLockTxId}</Typography>
         </Box>
         <LinearProgress variant="indeterminate" />
         <Typography variant="subtitle2" className={classes.depositStatusText}>
-          Most swap providers require 2 confirmations
-          <br />
-          Confirmations: {state.bobBtcLockTxConfirmations}
+          Confirmations: {state.alicejudeLockTxConfirmations}/10
         </Typography>
         <Typography variant="body1">
           <Link
-            href={getBitcoinTxExplorerUrl(state.bobBtcLockTxId, isTestnet())}
+            href={getjudeTxExplorerUrl(state.alicejudeLockTxId, isTestnet())}
             target="_blank"
           >
             View on explorer
