@@ -5,6 +5,7 @@ import {
   ChildProcessWithoutNullStreams,
   spawn as spawnProc,
 } from 'child_process';
+import { ProcessDescriptor } from 'ps-list';
 import downloadSwapBinary, { BinaryDownloadStatus } from './downloader';
 import { isTestnet } from '../store/config';
 import { isSwapLog, SwapLog } from '../models/swapModel';
@@ -57,6 +58,40 @@ async function getSpawnArgs(
   return [...flagsArray, subCommand, ...optionsArray];
 }
 
+async function killjudeWalletRpc() {
+  const list = (await ipcRenderer.invoke(
+    'get-proc-list'
+  )) as ProcessDescriptor[];
+  const judeWalletRpcProcPid = list.find(
+    (p) =>
+      p.name.match(/jude(.*)wallet(.*)rpc/gim) ||
+      p.cmd?.match(/jude(.*)wallet(.*)rpc/gim)
+  )?.pid;
+
+  if (judeWalletRpcProcPid) {
+    const judeWalletRpcKillErorr = (await ipcRenderer.invoke(
+      'kill-proc',
+      judeWalletRpcProcPid
+    )) as any | null;
+
+    if (judeWalletRpcKillErorr) {
+      console.error(
+        `Failed to kill jude-wallet-rpc PID: ${judeWalletRpcProcPid} Error: ${judeWalletRpcKillErorr}`
+      );
+    } else {
+      console.log(`Killed jude-wallet-rpc PID: ${judeWalletRpcProcPid}`);
+    }
+  } else {
+    console.error(
+      `Failed to kill jude-wallet-rpc because process could not be found`
+    );
+  }
+}
+
+export async function stopProc() {
+  cli?.kill('SIGINT');
+}
+
 export async function spawnSubcommand(
   subCommand: string,
   options: { [option: string]: string },
@@ -72,9 +107,12 @@ export async function spawnSubcommand(
   );
   const spawnArgs = await getSpawnArgs(subCommand, options);
 
+  await killjudeWalletRpc();
   cli = spawnProc(`./${binaryInfo.name}`, spawnArgs, {
     cwd: appDataPath,
   });
+
+  window.addEventListener('beforeunload', stopProc);
 
   console.log(
     `Spawned proc File: ${cli.spawnfile} Arguments: ${cli.spawnargs.join(' ')}`
@@ -106,14 +144,12 @@ export async function spawnSubcommand(
     });
   });
 
-  cli.on('exit', (code, signal) => {
+  cli.on('exit', async (code, signal) => {
     console.log(`Proc excited Code: ${code} Signal: ${signal}`);
+    await killjudeWalletRpc();
     onExit(code, signal);
+    window.removeEventListener('beforeunload', stopProc);
   });
 
   return cli;
-}
-
-export function stopProc() {
-  cli?.kill('SIGINT');
 }
