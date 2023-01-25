@@ -11,12 +11,12 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import SwapDialogTitle from '../SwapDialogTitle';
 import { ExtendedProvider } from '../../../../../models/storeModel';
 import { useAppSelector } from '../../../../../store/hooks';
-import startSwap from '../../../../../swap/commands/buy-jude';
+import spawnBuyjude from '../../../../../swap/commands/buyjudeCommand';
 import { isTestnet } from '../../../../../store/config';
 import {
   isBtcAddressValid,
   isjudeAddressValid,
-} from '../../../../../utils/currency-utils';
+} from '../../../../../utils/currencyUtils';
 
 const useStyles = makeStyles((theme) => ({
   alertBox: {
@@ -80,7 +80,7 @@ export default function SwapInitPage({
 
   function handleSwapStart() {
     setLoading(true);
-    startSwap(currentProvider, redeemAddress, refundAddress);
+    spawnBuyjude(currentProvider, redeemAddress, refundAddress);
   }
 
   useEffect(() => {
