@@ -8,10 +8,10 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ipcRenderer } from 'electron';
 import SwapDialogTitle from '../SwapDialogTitle';
 import { ExtendedProvider } from '../../../../../models/storeModel';
 import { useAppSelector } from '../../../../../store/hooks';
-import spawnBuyjude from '../../../../../swap/commands/buyjudeCommand';
 import { isTestnet } from '../../../../../store/config';
 import {
   isBtcAddressValid,
@@ -80,7 +80,12 @@ export default function SwapInitPage({
 
   function handleSwapStart() {
     setLoading(true);
-    spawnBuyjude(currentProvider, redeemAddress, refundAddress);
+    ipcRenderer.invoke(
+      'spawn-buy-jude',
+      currentProvider,
+      redeemAddress,
+      refundAddress
+    );
   }
 
   useEffect(() => {
