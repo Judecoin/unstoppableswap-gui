@@ -1,7 +1,8 @@
 import { SvgIcon } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
+import React from 'react';
 
-export default function JudeIcon(props: SvgIconProps) {
+export default function judeIcon(props: SvgIconProps) {
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <SvgIcon {...props}>

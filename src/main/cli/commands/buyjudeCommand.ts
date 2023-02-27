@@ -42,6 +42,12 @@ export default async function spawnBuyjude(
 ) {
   const sellerIdentifier = `${provider.multiAddr}/p2p/${provider.peerId}`;
 
+  store.dispatch(
+    swapInitiate({
+      provider,
+    })
+  );
+
   await spawnSubcommand(
     'buy-jude',
     {
