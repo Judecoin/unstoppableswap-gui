@@ -17,7 +17,7 @@ import { resolveHtmlPath } from './util';
 import watchDatabase from './cli/database';
 import { stopCli } from './cli/cli';
 import spawnBalanceCheck from './cli/commands/balanceCommand';
-import spawnBuyjude from './cli/commands/buyjudeCommand';
+import { spawnBuyjude, resumeBuyjude } from './cli/commands/buyjudeCommand';
 import spawnWithdrawBtc from './cli/commands/withdrawBtcCommand';
 
 export default class AppUpdater {
@@ -144,6 +144,8 @@ ipcMain.handle(
   (_event, provider, redeemAddress, refundAddress) =>
     spawnBuyjude(provider, redeemAddress, refundAddress)
 );
+
+ipcMain.handle('resume-buy-jude', (_event, swapId) => resumeBuyjude(swapId));
 
 ipcMain.handle('spawn-withdraw-btc', (_event, address) =>
   spawnWithdrawBtc(address)

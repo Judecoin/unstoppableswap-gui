@@ -35,6 +35,7 @@ import {
   MergedjudeLockedDbState,
   MergedjudeLockProofReceivedDbState,
 } from '../../models/databaseModel';
+import { Provider } from '../../models/storeModel';
 
 const executionSetupDoneState = require('./example_states/execution_setup_done.json');
 const btcLockedState = require('./example_states/btc_locked.json');
@@ -66,17 +67,24 @@ const allSingleStates = [
 ];
 
 const exampleSwapId = '15de9d95-a1f8-45e8-98a7-5327b940fc41';
+const exampleProvider: Provider = {
+  multiAddr: '/dnsaddr/jude.example',
+  peerId: '32394294389438924',
+  testnet: false,
+};
 
 const mergedExecutionSetupDoneState: MergedExecutionSetupDoneDbState = {
   swapId: exampleSwapId,
   type: DbStateType.EXECUTION_SETUP_DONE,
   state: merge({}, executionSetupDoneState),
+  provider: exampleProvider,
 };
 
 const mergedBtcLockedState: MergedBtcLockedDbState = {
   swapId: exampleSwapId,
   type: DbStateType.BTC_LOCKED,
   state: merge({}, executionSetupDoneState, btcLockedState),
+  provider: exampleProvider,
 };
 
 const mergedjudeLockProofReceivedState: MergedjudeLockProofReceivedDbState = {
@@ -88,6 +96,7 @@ const mergedjudeLockProofReceivedState: MergedjudeLockProofReceivedDbState = {
     btcLockedState,
     judeLockProofReceivedState
   ),
+  provider: exampleProvider,
 };
 
 const mergedjudeLockedState: MergedjudeLockedDbState = {
@@ -100,6 +109,7 @@ const mergedjudeLockedState: MergedjudeLockedDbState = {
     judeLockProofReceivedState,
     judeLockedState
   ),
+  provider: exampleProvider,
 };
 
 const mergedEncSigSentState: MergedEncSigSentDbState = {
@@ -113,6 +123,7 @@ const mergedEncSigSentState: MergedEncSigSentDbState = {
     judeLockedState,
     encSigSentState
   ),
+  provider: exampleProvider,
 };
 
 const mergedBtcRedeemedState: MergedBtcRedeemedDbState = {
@@ -127,6 +138,7 @@ const mergedBtcRedeemedState: MergedBtcRedeemedDbState = {
     encSigSentState,
     btcRedeemedState
   ),
+  provider: exampleProvider,
 };
 
 const mergedjudeRedeemedState: MergedDonejudeRedeemedDbState = {
@@ -142,6 +154,7 @@ const mergedjudeRedeemedState: MergedDonejudeRedeemedDbState = {
     btcRedeemedState,
     donejudeRedeemedState
   ),
+  provider: exampleProvider,
 };
 
 const mergedTimelockExpiredState: MergedCancelTimelockExpiredDbState = {
@@ -153,6 +166,7 @@ const mergedTimelockExpiredState: MergedCancelTimelockExpiredDbState = {
     btcLockedState,
     cancelTimelockExpiredState
   ),
+  provider: exampleProvider,
 };
 
 const mergedBtcCancelled: MergedBtcCancelledDbState = {
@@ -165,6 +179,7 @@ const mergedBtcCancelled: MergedBtcCancelledDbState = {
     cancelTimelockExpiredState,
     btcCancelledState
   ),
+  provider: exampleProvider,
 };
 
 const mergedBtcPunished: MergedDoneBtcPunishedDbState = {
@@ -178,6 +193,7 @@ const mergedBtcPunished: MergedDoneBtcPunishedDbState = {
     btcCancelledState,
     doneBtcPunished
   ),
+  provider: exampleProvider,
 };
 
 const allMergedStates = [
