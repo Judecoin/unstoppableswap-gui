@@ -37,16 +37,16 @@ import {
 } from '../../models/databaseModel';
 import { Provider } from '../../models/storeModel';
 
-const executionSetupDoneState = require('./example_states/execution_setup_done.json');
-const btcLockedState = require('./example_states/btc_locked.json');
-const judeLockProofReceivedState = require('./example_states/jude_lock_proof_received.json');
-const judeLockedState = require('./example_states/jude_locked.json');
-const encSigSentState = require('./example_states/enc_sig_sent.json');
-const btcRedeemedState = require('./example_states/btc_redeemed.json');
-const donejudeRedeemedState = require('./example_states/done_jude_redeemed.json');
-const cancelTimelockExpiredState = require('./example_states/cancel_timelock_expired.json');
-const btcCancelledState = require('./example_states/btc_cancelled.json');
-const doneBtcPunished = require('./example_states/done_btc_punished.json');
+import encSigSentState from './example_states/enc_sig_sent.json';
+import executionSetupDoneState from './example_states/execution_setup_done.json';
+import btcLockedState from './example_states/btc_locked.json';
+import judeLockProofReceivedState from './example_states/jude_lock_proof_received.json';
+import judeLockedState from './example_states/jude_locked.json';
+import btcRedeemedState from './example_states/btc_redeemed.json';
+import donejudeRedeemedState from './example_states/done_jude_redeemed.json';
+import cancelTimelockExpiredState from './example_states/cancel_timelock_expired.json';
+import btcCancelledState from './example_states/btc_cancelled.json';
+import doneBtcPunished from './example_states/done_btc_punished.json';
 
 /*
 TODO!
