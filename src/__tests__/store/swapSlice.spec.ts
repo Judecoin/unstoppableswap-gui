@@ -1,16 +1,16 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { Provider, SwapSlice, SwapStateType } from '../../models/storeModel';
 import {
-  SwapLogAliceLockedjude,
-  SwapLogBtcTxStatusChanged,
-  SwapLogPublishedBtcTx,
-  SwapLogReceivedBtc,
-  SwapLogReceivedQuote,
-  SwapLogReceivedjudeLockTxConfirmation,
-  SwapLogRedeemedjude,
-  SwapLogStartedSwap,
-  SwapLogWaitingForBtcDeposit,
-} from '../../models/swapModel';
+  CliLogAliceLockedjude,
+  CliLogBtcTxStatusChanged,
+  CliLogPublishedBtcTx,
+  CliLogReceivedBtc,
+  CliLogReceivedQuote,
+  CliLogReceivedjudeLockTxConfirmation,
+  CliLogRedeemedjude,
+  CliLogStartedSwap,
+  CliLogWaitingForBtcDeposit,
+} from '../../models/cliModel';
 
 import reducer, {
   swapAddLog,
@@ -18,15 +18,15 @@ import reducer, {
   swapProcessExited,
 } from '../../store/features/swapSlice';
 
-const mWaitingForBtcDepositLog: SwapLogWaitingForBtcDeposit = require('../example_cli_logs/cli_log_waiting_for_bitcoin_deposit.json');
-const mReceivedNewBtcLog: SwapLogReceivedBtc = require('../example_cli_logs/cli_log_received_bitcoin.json');
-const mReceivedQuoteLog: SwapLogReceivedQuote = require('../example_cli_logs/cli_log_received_quote.json');
-const mStartedSwapLog: SwapLogStartedSwap = require('../example_cli_logs/cli_log_starting_new_swap.json');
-const mPublishedBtcLockTxLog: SwapLogPublishedBtcTx = require('../example_cli_logs/cli_log_published_btc_lock_tx.json');
-const mBobBtcTxLockStatusChanged: SwapLogBtcTxStatusChanged = require('../example_cli_logs/cli_log_bitcoin_transaction_status_changed.json');
-const mAliceLockedjudeLog: SwapLogAliceLockedjude = require('../example_cli_logs/cli_log_alice_locked_jude.json');
-const mAlicejudeLockTxConfirmationUpdateLog: SwapLogReceivedjudeLockTxConfirmation = require('../example_cli_logs/cli_log_received_new_conf_for_jude_lock_tx.json');
-const mjudeRedeemSuccessfulLog: SwapLogRedeemedjude = require('../example_cli_logs/cli_log_redeemed_jude.json');
+const mWaitingForBtcDepositLog: CliLogWaitingForBtcDeposit = require('../mock_cli_logs/cli_log_waiting_for_bitcoin_deposit.json');
+const mReceivedNewBtcLog: CliLogReceivedBtc = require('../mock_cli_logs/cli_log_received_bitcoin.json');
+const mReceivedQuoteLog: CliLogReceivedQuote = require('../mock_cli_logs/cli_log_received_quote.json');
+const mStartedCliLog: CliLogStartedSwap = require('../mock_cli_logs/cli_log_starting_new_swap.json');
+const mPublishedBtcLockTxLog: CliLogPublishedBtcTx = require('../mock_cli_logs/cli_log_published_btc_lock_tx.json');
+const mBobBtcTxLockStatusChanged: CliLogBtcTxStatusChanged = require('../mock_cli_logs/cli_log_bitcoin_transaction_status_changed.json');
+const mAliceLockedjudeLog: CliLogAliceLockedjude = require('../mock_cli_logs/cli_log_alice_locked_jude.json');
+const mAlicejudeLockTxConfirmationUpdateLog: CliLogReceivedjudeLockTxConfirmation = require('../mock_cli_logs/cli_log_received_new_conf_for_jude_lock_tx.json');
+const mjudeRedeemSuccessfulLog: CliLogRedeemedjude = require('../mock_cli_logs/cli_log_redeemed_jude.json');
 
 const initialSwapState = {
   state: null,
@@ -124,7 +124,7 @@ test('should infer correct states from happy-path logs', () => {
     swapId: null,
   });
 
-  swap = reducer(swap, swapAddLog(mStartedSwapLog));
+  swap = reducer(swap, swapAddLog(mStartedCliLog));
 
   expect(swap).toStrictEqual({
     processRunning: true,
@@ -132,7 +132,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
     ],
     state: {
       type: SwapStateType.STARTED,
@@ -152,7 +152,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
     ],
     state: {
@@ -175,7 +175,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
       mBobBtcTxLockStatusChanged,
     ],
@@ -199,7 +199,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
       mBobBtcTxLockStatusChanged,
       mAliceLockedjudeLog,
@@ -224,7 +224,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
       mBobBtcTxLockStatusChanged,
       mAliceLockedjudeLog,
@@ -250,7 +250,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
       mBobBtcTxLockStatusChanged,
       mAliceLockedjudeLog,
@@ -261,6 +261,8 @@ test('should infer correct states from happy-path logs', () => {
       type: SwapStateType.jude_REDEEM_IN_MEMPOOL,
       bobjudeRedeemTxId:
         'eadda576b5929c55bcc58f55c24bb52ac1853edb7d3b068ab67a3f66b0a1c546',
+      bobjudeRedeemAddress:
+        '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6',
     },
     provider: exampleProvider,
     stdOut: '',
@@ -282,7 +284,7 @@ test('should infer correct states from happy-path logs', () => {
       mReceivedQuoteLog,
       mWaitingForBtcDepositLog,
       mReceivedNewBtcLog,
-      mStartedSwapLog,
+      mStartedCliLog,
       mPublishedBtcLockTxLog,
       mBobBtcTxLockStatusChanged,
       mAliceLockedjudeLog,
@@ -297,6 +299,8 @@ test('should infer correct states from happy-path logs', () => {
         type: SwapStateType.jude_REDEEM_IN_MEMPOOL,
         bobjudeRedeemTxId:
           'eadda576b5929c55bcc58f55c24bb52ac1853edb7d3b068ab67a3f66b0a1c546',
+        bobjudeRedeemAddress:
+          '59McWTPGc745SRWrSMoh8oTjoXoQq6sPUgKZ66dQWXuKFQ2q19h9gvhJNZcFTizcnT12r63NFgHiGd6gBCjabzmzHAMoyD6',
       },
     },
     provider: exampleProvider,

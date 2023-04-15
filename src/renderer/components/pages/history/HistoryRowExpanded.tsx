@@ -12,6 +12,7 @@ import React from 'react';
 import { MergedDbState } from '../../../../models/databaseModel';
 import {
   getSwapBtcAmount,
+  getSwapExchangeRate,
   getSwapTxFees,
   getSwapjudeAmount,
 } from '../../../../utils/parseUtils';
@@ -55,9 +56,8 @@ export default function HistoryRowExpanded({
   const btcAmount = getSwapBtcAmount(dbState);
   const judeAmount = getSwapjudeAmount(dbState);
   const txFees = getSwapTxFees(dbState);
+  const exchangeRate = getSwapExchangeRate(dbState);
   const { provider } = dbState;
-
-  const exchangeRate = btcAmount ? `${btcAmount / judeAmount} jude/BTC` : '?';
 
   return (
     <Box className={classes.outer}>
@@ -82,7 +82,9 @@ export default function HistoryRowExpanded({
             </TableRow>
             <TableRow>
               <TableCell>Exchange Rate</TableCell>
-              <TableCell>{exchangeRate}</TableCell>
+              <TableCell>
+                {exchangeRate ? `${exchangeRate.toPrecision(6)} jude/BTC` : '?'}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Bitcoin Network Fees</TableCell>
@@ -91,10 +93,6 @@ export default function HistoryRowExpanded({
             <TableRow>
               <TableCell>Provider Address</TableCell>
               <TableCell>{provider.multiAddr}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Provider Peer ID</TableCell>
-              <TableCell>{provider.peerId}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

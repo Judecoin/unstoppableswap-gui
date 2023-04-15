@@ -1,52 +1,14 @@
-import path from 'path';
-import { promises as fs } from 'fs';
-import { app } from 'electron';
 import {
   ChildProcessWithoutNullStreams,
   spawn as spawnProc,
 } from 'child_process';
 import psList from 'ps-list';
-import downloadSwapBinary, { BinaryDownloadStatus } from './downloader';
+import downloadSwapBinary from './downloader';
 import { isTestnet } from '../../store/config';
-import { isSwapLog, SwapLog } from '../../models/swapModel';
+import { isCliLog, CliLog } from '../../models/cliModel';
+import { getAppDataDir, getCliDataBaseDir } from './dirs';
 
 let cli: ChildProcessWithoutNullStreams | null = null;
-
-export async function getAppDataDir(): Promise<string> {
-  const appDataPath = app.getPath('appData');
-  const dPath = path.join(appDataPath, 'unstoppableswap');
-  await fs.mkdir(dPath, {
-    recursive: true,
-  });
-  return dPath;
-}
-
-export async function getCliDataBaseDir(): Promise<string> {
-  const appDataPath = app.getPath('appData');
-  const dPath = path.join(appDataPath, 'jude-btc-swap', 'cli');
-  await fs.mkdir(dPath, {
-    recursive: true,
-  });
-  return dPath;
-}
-
-export async function getCliDataDir(): Promise<string> {
-  const baseDir = await getCliDataBaseDir();
-  const dataDir = path.join(baseDir, isTestnet() ? 'testnet' : 'mainnet');
-  await fs.mkdir(dataDir, {
-    recursive: true,
-  });
-  return dataDir;
-}
-
-export async function getSwapLogFile(swapId: string): Promise<string> {
-  const baseDir = await getCliDataDir();
-  const logsDir = path.join(baseDir, 'logs');
-  await fs.mkdir(logsDir, {
-    recursive: true,
-  });
-  return path.join(logsDir, `swap-${swapId}.logs`);
-}
 
 async function getSpawnArgs(
   subCommand: string,
@@ -76,14 +38,11 @@ async function killjudeWalletRpc() {
   )?.pid;
 
   if (pid) {
-    const judeWalletRpcKillErorr = process.kill(pid);
-
-    if (judeWalletRpcKillErorr) {
-      console.error(
-        `Failed to kill jude-wallet-rpc PID: ${pid} Error: ${judeWalletRpcKillErorr}`
-      );
-    } else {
-      console.debug(`Successfully jude-wallet-rpc killed PID: ${pid}`);
+    try {
+      process.kill(pid);
+      console.debug(`Successfully killed jude-wallet-rpc PID: ${pid}`);
+    } catch (e) {
+      console.error(`Failed to kill jude-wallet-rpc PID: ${pid} Error: ${e}`);
     }
   } else {
     console.debug(
@@ -99,8 +58,7 @@ export async function stopCli() {
 export async function spawnSubcommand(
   subCommand: string,
   options: { [option: string]: string },
-  downloadProgressCallback: (status: BinaryDownloadStatus) => void,
-  onLog: (log: SwapLog) => void,
+  onLog: (log: CliLog) => void,
   onExit: (code: number | null, signal: NodeJS.Signals | null) => void,
   onStdOut: (data: string) => void
 ): Promise<ChildProcessWithoutNullStreams> {
@@ -112,13 +70,11 @@ export async function spawnSubcommand(
     );
   }
   const appDataPath = await getAppDataDir();
-  const binaryInfo = await downloadSwapBinary(
-    appDataPath,
-    downloadProgressCallback
-  );
+  const binaryInfo = await downloadSwapBinary();
   const spawnArgs = await getSpawnArgs(subCommand, options);
 
   await killjudeWalletRpc();
+
   cli = spawnProc(`./${binaryInfo.name}`, spawnArgs, {
     cwd: appDataPath,
   });
@@ -135,18 +91,20 @@ export async function spawnSubcommand(
       data
         .toString()
         .split(/(\r?\n)/g)
-        .filter((s: string) => s.length > 3)
+        .filter((s: string) => s.length > 2)
         .forEach((logText: string) => {
+          console.log(`[${subCommand}] ${logText.trim()}`);
+
           try {
             const log = JSON.parse(logText);
-            if (isSwapLog(log)) {
+            if (isCliLog(log)) {
               onLog(log);
             } else {
               throw new Error('Required properties are missing');
             }
           } catch (e) {
-            console.debug(
-              `Failed to parse proc log. Log text: ${logText} Error: ${e.message}`
+            console.log(
+              `[${subCommand}] Failed to parse cli log. Log text: ${logText} Error: ${e.message}`
             );
           }
         });
@@ -154,11 +112,11 @@ export async function spawnSubcommand(
   });
 
   cli.on('exit', async (code, signal) => {
-    console.log(`Cli excited Code: ${code} Signal: ${signal}`);
+    console.log(
+      `[${subCommand}] Cli excited with code: ${code} and signal: ${signal}`
+    );
 
-    await killjudeWalletRpc();
     cli = null;
-
     onExit(code, signal);
   });
 

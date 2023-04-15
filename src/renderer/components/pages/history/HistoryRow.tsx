@@ -12,8 +12,6 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { MergedDbState } from '../../../../models/databaseModel';
 import HistoryRowActions from './HistoryRowActions';
-import judeIcon from '../../icons/judeIcon';
-import BitcoinIcon from '../../icons/BitcoinIcon';
 import HistoryRowExpanded from './HistoryRowExpanded';
 import {
   getSwapBtcAmount,
@@ -43,11 +41,9 @@ function AmountTransfer({
 
   return (
     <Box className={classes.amountTransferContainer}>
-      {btcAmount ? `${btcAmount.toFixed(6)}` : '?'}
-      <BitcoinIcon />
+      {btcAmount ? `${btcAmount.toFixed(6)} BTC` : '?'}
       <ArrowForwardIcon />
-      {`${judeAmount.toFixed(5)}`}
-      <judeIcon />
+      {`${judeAmount.toFixed(6)} jude`}
     </Box>
   );
 }

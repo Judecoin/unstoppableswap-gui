@@ -37,16 +37,16 @@ import {
 } from '../../models/databaseModel';
 import { Provider } from '../../models/storeModel';
 
-import encSigSentState from '../example_states/enc_sig_sent.json';
-import executionSetupDoneState from '../example_states/execution_setup_done.json';
-import btcLockedState from '../example_states/btc_locked.json';
-import judeLockProofReceivedState from '../example_states/jude_lock_proof_received.json';
-import judeLockedState from '../example_states/jude_locked.json';
-import btcRedeemedState from '../example_states/btc_redeemed.json';
-import donejudeRedeemedState from '../example_states/done_jude_redeemed.json';
-import cancelTimelockExpiredState from '../example_states/cancel_timelock_expired.json';
-import btcCancelledState from '../example_states/btc_cancelled.json';
-import doneBtcPunished from '../example_states/done_btc_punished.json';
+import encSigSentState from '../mock_db_states/db_state_enc_sig_sent.json';
+import executionSetupDoneState from '../mock_db_states/db_state_execution_setup_done.json';
+import btcLockedState from '../mock_db_states/db_state_btc_locked.json';
+import judeLockProofReceivedState from '../mock_db_states/db_state_jude_lock_proof_received.json';
+import judeLockedState from '../mock_db_states/db_state_jude_locked.json';
+import btcRedeemedState from '../mock_db_states/db_state_btc_redeemed.json';
+import donejudeRedeemedState from '../mock_db_states/db_state_done_jude_redeemed.json';
+import cancelTimelockExpiredState from '../mock_db_states/db_state_cancel_timelock_expired.json';
+import btcCancelledState from '../mock_db_states/db_state_btc_cancelled.json';
+import doneBtcPunished from '../mock_db_states/db_state_done_btc_punished.json';
 
 /*
 TODO!

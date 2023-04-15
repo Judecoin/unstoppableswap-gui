@@ -135,7 +135,7 @@ function HasProviderSwapWidget({
         label="Receive"
         variant="outlined"
         size="medium"
-        value={judeFieldValue.toFixed(4)}
+        value={judeFieldValue.toFixed(6)}
         InputProps={{
           endAdornment: <InputAdornment position="end">jude</InputAdornment>,
         }}
