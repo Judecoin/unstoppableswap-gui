@@ -29,7 +29,7 @@ export default function judeAddressTextField({
 
   useEffect(() => {
     onAddressValidityChange(!errorText);
-  }, [address]);
+  }, [address, getAddressError, onAddressValidityChange]);
 
   return (
     <TextField
