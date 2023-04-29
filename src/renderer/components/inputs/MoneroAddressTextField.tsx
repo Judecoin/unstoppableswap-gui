@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField/TextField';
-import { isBtcAddressValid } from '../../../utils/currencyUtils';
+import { isjudeAddressValid } from '../../../utils/currencyUtils';
 import { isTestnet } from '../../../store/config';
 
-export default function BitcoinAddressTextField({
+export default function judeAddressTextField({
   address,
   onAddressChange,
   onAddressValidityChange,
@@ -16,22 +16,14 @@ export default function BitcoinAddressTextField({
   onAddressValidityChange: (valid: boolean) => void;
   helperText: string;
 } & TextFieldProps) {
-  const placeholder = isTestnet() ? 'tb1q4aelwalu...' : 'bc18ociqZ9mZ...';
-
-  function getAddressError() {
-    if (isBtcAddressValid(address, isTestnet())) {
-      return null;
-    }
-    return `Only bech32 addresses are supported. They begin with "${
-      isTestnet() ? 'tb1' : 'bc1'
-    }"`;
-  }
-
-  const errorText = getAddressError();
+  const placeholder = isTestnet() ? '59McWTPGc745...' : '888tNkZrPN6J...';
+  const errorText = isjudeAddressValid(address, isTestnet())
+    ? null
+    : 'Not a valid jude address';
 
   useEffect(() => {
     onAddressValidityChange(!errorText);
-  }, [address, errorText, onAddressValidityChange]);
+  }, [address, onAddressValidityChange, errorText]);
 
   return (
     <TextField

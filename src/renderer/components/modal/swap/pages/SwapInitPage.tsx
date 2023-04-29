@@ -1,5 +1,5 @@
 import { Box, Button, DialogContentText, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import judeAddressTextField from '../../../inputs/judeAddressTextField';
 import BitcoinAddressTextField from '../../../inputs/BitcoinAddressTextField';
