@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField/TextField';
 import { isjudeAddressValid } from '../../../utils/currencyUtils';
@@ -17,19 +17,13 @@ export default function judeAddressTextField({
   helperText: string;
 } & TextFieldProps) {
   const placeholder = isTestnet() ? '59McWTPGc745...' : '888tNkZrPN6J...';
-
-  function getAddressError() {
-    if (isjudeAddressValid(address, isTestnet())) {
-      return null;
-    }
-    return 'Not a valid jude address';
-  }
-
-  const errorText = getAddressError();
+  const errorText = isjudeAddressValid(address, isTestnet())
+    ? null
+    : 'Not a valid jude address';
 
   useEffect(() => {
     onAddressValidityChange(!errorText);
-  }, [address, getAddressError, onAddressValidityChange]);
+  }, [address, onAddressValidityChange, errorText]);
 
   return (
     <TextField
