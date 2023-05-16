@@ -1,5 +1,4 @@
 import { Box, DialogContentText } from '@material-ui/core';
-import React from 'react';
 import { SwapStatejudeLockInMempool } from '../../../../../models/storeModel';
 import judeIcon from '../../../icons/judeIcon';
 import { isTestnet } from '../../../../../store/config';
