@@ -37,8 +37,12 @@ export enum SwapStateType {
   STARTED = 'started',
   BTC_LOCK_TX_IN_MEMPOOL = 'btc lock tx is in mempool',
   jude_LOCK_TX_IN_MEMPOOL = 'jude lock tx is in mempool',
+  jude_LOCKED = 'jude is locked',
+  BTC_REDEEMED = 'btc redeemed',
   jude_REDEEM_IN_MEMPOOL = 'jude redeem tx is in mempool',
   PROCESS_EXITED = 'process exited',
+  BTC_CANCELLED = 'btc cancelled',
+  BTC_REFUNDED = 'btc refunded',
 }
 
 export function isSwapState(state?: SwapState | null): state is SwapState {
@@ -117,6 +121,26 @@ export function isSwapStatejudeLockInMempool(
   return state?.type === SwapStateType.jude_LOCK_TX_IN_MEMPOOL;
 }
 
+export interface SwapStatejudeLocked extends SwapState {
+  type: SwapStateType.jude_LOCKED;
+}
+
+export function isSwapStatejudeLocked(
+  state?: SwapState | null
+): state is SwapStatejudeLocked {
+  return state?.type === SwapStateType.jude_LOCKED;
+}
+
+export interface SwapStateBtcRedemeed extends SwapState {
+  type: SwapStateType.BTC_REDEEMED;
+}
+
+export function isSwapStateBtcRedemeed(
+  state?: SwapState | null
+): state is SwapStateBtcRedemeed {
+  return state?.type === SwapStateType.BTC_REDEEMED;
+}
+
 export interface SwapStatejudeRedeemInMempool extends SwapState {
   type: SwapStateType.jude_REDEEM_IN_MEMPOOL;
   bobjudeRedeemTxId: string;
@@ -127,6 +151,22 @@ export function isSwapStatejudeRedeemInMempool(
   state?: SwapState | null
 ): state is SwapStatejudeRedeemInMempool {
   return state?.type === SwapStateType.jude_REDEEM_IN_MEMPOOL;
+}
+
+export interface SwapStateBtcCancelled extends SwapState {
+  type: SwapStateType.BTC_CANCELLED;
+  btcCancelTxId: string;
+}
+
+export function isSwapStateBtcCancelled(
+  state?: SwapState | null
+): state is SwapStateBtcCancelled {
+  return state?.type === SwapStateType.BTC_CANCELLED;
+}
+
+export interface SwapStateBtcRefunded extends SwapState {
+  type: SwapStateType.BTC_REFUNDED;
+  bobBtcRefundTxId: string;
 }
 
 export interface SwapStateProcessExited extends SwapState {
